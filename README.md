@@ -9,6 +9,8 @@ Com essa aplicação é possível analisar:
 - Tirar estatísticas de respostas de host para ver se o % de balanceamento está sendo respeitado
 - Conduzir um deploy pelo health check
 - Validar rollback pelo unhealth route
+- Validar se os logs estão sendo filtrados corretamente pelo ingestor de logs da sua stack
+- Verificar se as variaveis de ambiente estão sendo carregadas corretamente
 
 ## Rotas a serem usadas na aplicação
 
@@ -17,6 +19,8 @@ Com essa aplicação é possível analisar:
 - /hostname - obter o hostname da instancia
 - /health - retornar health se o express estiver ativo
 - /unhealth - retornar erro 500 incondicionalmente
+- /payload - rota de post que reflete a entrada e loga o conteúdo na aplicação
+- /env - lista todas as variáveis de ambiente carregadas
 
 ## Bibliotecas usadas
 

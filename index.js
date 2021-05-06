@@ -12,7 +12,7 @@ const nets = networkInterfaces()
 const file = JSON.parse(readFileSync('./package.json', 'utf-8'))
 
 
-
+// function to extract network information from os
 const showNetworkInterfaces = () => {
 	const results = Object.create(null) // Or just '{}', an empty object
 	for (const name of Object.keys(nets)) {
@@ -29,28 +29,53 @@ const showNetworkInterfaces = () => {
 	return results
 }
 
+//express injections 
 app.use(pino)
+app.use(express.json())
 
-
+// show all network information
 app.get('/', (req, res) => {
 	res.json(showNetworkInterfaces())
 })
 
+// reflect payload if is json parsed
+app.post('/payload', (req, res) => {
+	try {
+		pino.logger.info({ payload: req.body })
+		res.status(200).json(req.body)
+	} catch (e) {
+		const message = 'the payload is not a JSON valid'
+		pino.logger.error(message)
+		res.status(400).json(message)
+	}
+})
+
+// return all env variables
+app.get('/env', (req, res) => {
+	res.json(process.env)
+})
+
+// return version of the application
 app.get('/version', (req, res) => {
 	res.json(file.version)
 })
 
+//return current hostname 
 app.get('/hostname', (req, res) => {
 	res.json(hostname())
 })
 
+//return health response 
 app.get('/health', (req, res) => {
 	res.status(200).json(ok)
 })
 
+//return unhealth response aways
 app.get('/unhealth', (req, res) => {
 	res.status(500).json(not_ok)
 })
 
-app.listen(port, () => { })
+app.listen(port, () => {
+	pino.logger.info('application started')
+})
 
