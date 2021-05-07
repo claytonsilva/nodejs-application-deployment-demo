@@ -67,12 +67,12 @@ app.get('/hostname', (req, res) => {
 
 //return health response 
 app.get('/health', (req, res) => {
-	res.status(200).json(ok)
+	res.status(200).json('ok')
 })
 
 //return unhealth response aways
 app.get('/unhealth', (req, res) => {
-	res.status(500).json(not_ok)
+	res.status(500).json('not_ok')
 })
 
 app.listen(port, () => {
